@@ -1,0 +1,20 @@
+{
+  "name": "gulp-sass-civicrm-import",
+  "version": "0.1.0",
+  "description": "Load SCSS resources from CiviCRM extensions",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/jasmine-node/bin/jasmine-node tests/"
+  },
+  "author": "Tim Otten",
+  "license": "ISC",
+  "dependencies": {
+    "civicrm-cv": "civicrm/cv-nodejs",
+    "lodash": "^4.17.4",
+    "through2": "^0.6.3",
+    "vinyl-fs": "^0.3.9"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
+}

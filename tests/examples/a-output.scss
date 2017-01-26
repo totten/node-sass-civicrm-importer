@@ -1,0 +1,5 @@
+
+@import "/var/www/vendor/foo/one";
+@import '/var/www/files/foobar/two';
+@import 'civicrm:unknown/kazoo';
+@import "unrelated";
