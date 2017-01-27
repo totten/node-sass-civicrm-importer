@@ -49,6 +49,7 @@ gulp.task('css', function() {
     .src('example.scss')
     .pipe(sass({
        importer: importCiviSass({
+         debug: true,
          prefix: 'foo:',
          paths: [{key: 'org.example.bar', 'path': '/var/www/bar'}]
        })

@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals require, Buffer */
+/*globals require, Buffer, console */
 var cv = require('civicrm-cv')({mode: 'sync'});
 var glob = require('glob');
 var fs = require('fs');
@@ -35,19 +35,19 @@ module.exports = function(options) {
       if (pathMap[extKey]) {
 
         if (suffix.indexOf('*') < 0) {
-          done({file: pathMap[extKey] + suffix});
+          var path = pathMap[extKey] + suffix;
+          if (options.debug) console.log('node-sass-civicrm-importer-spec: Mapped ' + url + ' to ' + path);
+          done({file: path});
           return;
         }
 
         var buf = '';
-        var files = glob.sync(pathMap[extKey] + suffix);
+        var files = _.filter(glob.sync(pathMap[extKey] + suffix), function(file ){
+          return !fs.statSync(file).isDirectory() && file.match(/\.(scss|sass)$/);
+        });
+        if (options.debug) console.log('node-sass-civicrm-importer-spec: Mapped glob ' + url + ' to ', files);
         _.each(files, function(file){
-          if (fs.statSync(file).isDirectory()) {
-            return;
-          }
-          if (file.match(/\.(scss|sass)$/)) {
-            buf = buf + fs.readFileSync(file).toString('utf-8');
-          }
+          buf = buf + fs.readFileSync(file).toString('utf-8');
         });
 
         done({content: buf});
