@@ -8,7 +8,7 @@ var _ = require('lodash');
 
 module.exports = function(options) {
   options = options || {};
-  options.prefix = options.prefix || 'civicrm:';
+  options.prefix = options.prefix || 'ext:';
   options.paths = options.paths || cv('ext:list -L --columns=key,path'); // lazy eval
 
   var pathMap = {};
@@ -22,7 +22,7 @@ module.exports = function(options) {
    * Translate a URL to the path to a Civi extension.
    *
    * @param String url
-   *   Ex: "civicrm:org.example.foo/scss/something".
+   *   Ex: "ext:org.example.foo/scss/something".
    * @param String prev
    * @return null|Object
    *

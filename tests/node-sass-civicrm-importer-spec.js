@@ -11,9 +11,9 @@ describe('node-sass-civicrm-importer', function(done) {
   ];
 
   var cases = {
-    'civicrm:realish.example/**': {content: 'div.one {}\ndiv.three {}\n'},
-    'civicrm:org.example.foo/one': {file: '/var/www/vendor/foo/one'},
-    'civicrm:org.example.foobar/two/three': {file: '/var/www/files/foobar/two/three'},
+    'ext:realish.example/**': {content: 'div.one {}\ndiv.three {}\n'},
+    'ext:org.example.foo/one': {file: '/var/www/vendor/foo/one'},
+    'ext:org.example.foobar/two/three': {file: '/var/www/files/foobar/two/three'},
     'foo/bar': null
   };
 

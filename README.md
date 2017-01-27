@@ -13,8 +13,8 @@ npm install --save-dev civicrm/node-sass-civicrm-importer
 ## Usage (SCSS)
 
 ```scss
-@import "civicrm:org.example.foo/hello";
-@import "civicrm:org.example.bar/world/**";
+@import "ext:org.example.foo/hello";
+@import "ext:org.example.bar/world/**";
 ```
 
 would generally resolve to something like:
