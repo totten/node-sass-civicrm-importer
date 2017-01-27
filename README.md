@@ -14,12 +14,15 @@ npm install --save-dev civicrm/node-sass-civicrm-importer
 
 ```scss
 @import "civicrm:org.example.foo/hello";
+@import "civicrm:org.example.bar/world/**";
 ```
 
 would generally resolve to something like:
 
 ```scss
 @import "/var/www/sites/default/files/civicrm/ext/org.example.foo/_hello.scss";
+@import "/var/www/sites/vendor/examplefoo/world/_one.scss";
+@import "/var/www/sites/vendor/examplefoo/world/two/_three.scss";
 ```
 
 ## Usage (Gulp)

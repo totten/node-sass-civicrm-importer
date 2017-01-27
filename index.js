@@ -2,6 +2,8 @@
 
 /*globals require, Buffer */
 var cv = require('civicrm-cv')({mode: 'sync'});
+var glob = require('glob');
+var fs = require('fs');
 var _ = require('lodash');
 
 module.exports = function(options) {
@@ -31,7 +33,24 @@ module.exports = function(options) {
     if (result && result[1]) {
       var extKey = result[1], suffix = result[2];
       if (pathMap[extKey]) {
-        done({file: pathMap[extKey] + suffix});
+
+        if (suffix.indexOf('*') < 0) {
+          done({file: pathMap[extKey] + suffix});
+          return;
+        }
+
+        var buf = '';
+        var files = glob.sync(pathMap[extKey] + suffix);
+        _.each(files, function(file){
+          if (fs.statSync(file).isDirectory()) {
+            return;
+          }
+          if (file.match(/\.(scss|sass)$/)) {
+            buf = buf + fs.readFileSync(file).toString('utf-8');
+          }
+        });
+
+        done({content: buf});
         return;
       }
     }

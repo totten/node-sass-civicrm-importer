@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "civicrm-cv": "civicrm/cv-nodejs",
+    "glob": "^4.0.6",
     "lodash": "^4.17.4",
     "through2": "^0.6.3",
     "vinyl-fs": "^0.3.9"
