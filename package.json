@@ -1,5 +1,5 @@
 {
-  "name": "gulp-sass-civicrm-import",
+  "name": "node-sass-civicrm-importer",
   "version": "0.1.0",
   "description": "Load SCSS resources from CiviCRM extensions",
   "main": "index.js",

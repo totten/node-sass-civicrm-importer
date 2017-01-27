@@ -1,37 +1,41 @@
 'use strict';
 
 /*globals require, Buffer */
-var through = require('through2');
 var cv = require('civicrm-cv')({mode: 'sync'});
 var _ = require('lodash');
 
 module.exports = function(options) {
   options = options || {};
   options.prefix = options.prefix || 'civicrm:';
-  options.paths = options.paths || cv('ext:list -Li --columns=key,path'); // lazy eval
+  options.paths = options.paths || cv('ext:list -L --columns=key,path'); // lazy eval
 
   var pathMap = {};
   _.each(options.paths, function(ext){
     pathMap[ext.key] = ext.path;
   });
 
-  var transform = function(file, env, cb) {
-    var fileContent = file.contents.toString('utf-8');
+  var regex = new RegExp('^' + _.escapeRegExp(options.prefix) + "([^\/]+)(/.+)");
 
-    // ex: @import 'civicrm:com.example.foo/file';
-    // ex: @import   "civicrm:com.example.foo/folder/file";
-    var regex = new RegExp("(@import\\s+[\"'])" + _.escapeRegExp(options.prefix) + "([^\/]+)([^\"'\r\n]+[\"'];?)", "g");
-    fileContent = fileContent.replace(regex, function(match, prefix, extKey, suffix, offset, s) {
+  /**
+   * Translate a URL to the path to a Civi extension.
+   *
+   * @param String url
+   *   Ex: "civicrm:org.example.foo/scss/something".
+   * @param String prev
+   * @return null|Object
+   *
+   * @link https://github.com/sass/node-sass#importer--v200---experimental
+   */
+  return function(url, prev, done){
+    var result = regex.exec(url);
+    if (result && result[1]) {
+      var extKey = result[1], suffix = result[2];
       if (pathMap[extKey]) {
-        return prefix + pathMap[extKey] + suffix;
-      } else {
-        return match;
+        done({file: pathMap[extKey] + suffix});
+        return;
       }
-    });
+    }
 
-    file.contents = new Buffer(fileContent);
-    cb(null, file);
+    done(null);
   };
-
-  return through.obj(transform);
 };

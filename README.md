@@ -1,4 +1,4 @@
-# gulp-sass-civicrm-import
+# node-sass-civicrm-importer
 
 Filter SCSS files to resolve the paths to CiviCRM extensions.
 
@@ -6,7 +6,7 @@ Filter SCSS files to resolve the paths to CiviCRM extensions.
 ## Installation
 
 ```
-npm install --save-dev civicrm/gulp-sass-civicrm-import
+npm install --save-dev civicrm/node-sass-civicrm-importer
 ```
 
 
@@ -25,13 +25,31 @@ would generally resolve to something like:
 ## Usage (Gulp)
 
 ```js
-var importCiviSass = require('gulp-sass-civicrm-import');
+var importCiviSass = require('node-sass-civicrm-importer');
 
 gulp.task('css', function() {
   return gulp
     .src('example.scss')
-    .pipe(importCiviSass())
-    .pipe(sass({}))
+    .pipe(sass({
+       importer: importCiviSass()
+     }))
+    .pipe(gulp.dest('./public/css/'));
+});
+```
+
+
+```js
+var importCiviSass = require('node-sass-civicrm-importer');
+
+gulp.task('css', function() {
+  return gulp
+    .src('example.scss')
+    .pipe(sass({
+       importer: importCiviSass({
+         prefix: 'foo:',
+         paths: [{key: 'org.example.bar', 'path': '/var/www/bar'}]
+       })
+     }))
     .pipe(gulp.dest('./public/css/'));
 });
 ```
